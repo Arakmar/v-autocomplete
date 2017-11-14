@@ -39,7 +39,8 @@ export default {
     inputClass: {type: String, default: 'v-autocomplete-input'},
     disabled: {type: Boolean, default: false},
     inputAttrs: {type: Object, default: () => {return {}}},
-    keepOpen: {type: Boolean, default: false}
+    keepOpen: {type: Boolean, default: false},
+    keepItems: false
   },
   data () {
     return {
@@ -87,7 +88,9 @@ export default {
 
     onSelectItem (item) {
       if (item) {
-        this.internalItems = [item]
+        if (!this.keepItems) {
+          this.internalItems = [item]
+        }
         this.searchText = this.getLabel(item)
         this.$emit('item-selected', item)
       } else {
