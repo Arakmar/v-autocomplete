@@ -45,6 +45,7 @@ export default {
   data () {
     return {
       searchText: '',
+      oldSearchText: '',
       showList: false,
       cursor: -1,
       internalItems: this.items || []
@@ -59,12 +60,15 @@ export default {
     }
   },
   methods: {
-    inputChange () {
-      this.showList = true
-      this.cursor = -1
-      this.onSelectItem(null, 'inputChange')
-      utils.callUpdateItems(this.searchText, this.updateItems)
-      this.$emit('change', this.searchText)
+    inputChange (ev) {
+      if (this.oldSearchText != this.searchText) {
+        this.oldSearchText = this.searchText;
+        this.showList = true
+        this.cursor = -1
+        this.onSelectItem(null, 'inputChange')
+        utils.callUpdateItems(this.searchText, this.updateItems)
+        this.$emit('change', this.searchText)
+      }
     },
 
     updateItems () {
