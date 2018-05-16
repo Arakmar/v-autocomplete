@@ -6,7 +6,7 @@
             :placeholder="inputAttrs.placeholder || placeholder"
             :disabled="inputAttrs.disabled || disabled"
             @blur="blur" @focus="focus" @input="inputChange"
-            @keyup.enter="keyEnter" @keydown.tab="keyEnter" 
+            @keyup.enter="keyEnter" @keydown.tab="keyTab" 
             @keydown.up="keyUp" @keydown.down="keyDown">
     </div>
     <div class="v-autocomplete-list" v-if="show">
@@ -40,7 +40,8 @@ export default {
     disabled: {type: Boolean, default: false},
     inputAttrs: {type: Object, default: () => {return {}}},
     keepOpen: {type: Boolean, default: false},
-    keepItems: false
+    keepItems: false,
+    disableTab: false
   },
   data () {
     return {
@@ -135,6 +136,14 @@ export default {
       if (this.showList && this.internalItems[this.cursor]) {
         this.onSelectItem(this.internalItems[this.cursor])
         this.showList = false
+      }
+    },
+    keyTab (e) {
+      if (this.disableTab) {
+        e.preventDefault();
+        e.stopPropagation();
+      } else {
+        keyEnter(e);
       }
     },
 
